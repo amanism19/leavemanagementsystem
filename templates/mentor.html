@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block a %}
+<h3>Student Apply Status</h3>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">PURPOSE</th>
+      <th scope="col">START DATE</th>
+      <th scope="col">END DATE</th>
+      <th scope="col">DURATION</th>
+      <th scope="col">STATUS</th>
+      <th scope="col">Comment</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if flag == 1 %}
+    {% for row in getAllstudentInfo %}
+    <tr>
+      <td>{{row.purpose}}</td>
+      <td>{{row.start_date}}</td>
+      <td>{{row.end_date}}</td>
+      <td>{{row.duration}}</td>
+      <td>{{ row.status}}</td>
+      <td><form method = "post" action = "/mentor">
+        {% csrf_token %}
+        <input type='text' name='comment' class="form-control"/>
+    </td>
+      <td><form method = "post" action = "/mentor">
+        {% csrf_token %}
+        <input type='hidden' name='rowid' value ={{row.id}} /> 
+        <button type="submit" name ="statusbtn" value='approved' class="btn btn-primary">APPROVED</button>
+        <button type="submit" name ="statusbtn" value='rejected' class="btn btn-primary">REJECTED</button>
+      </form></td>
+      
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+
+
+
+
+{% endblock a %}

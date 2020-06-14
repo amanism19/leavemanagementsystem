@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block a %}
+{% if msg != '' %}
+<h1>{{msg}}</h1>
+{% endif %}
+<form method="post" action = "student">
+  {% csrf_token %}
+  <div class="form-group">
+      <label>PURPOSE:</label>
+      <textarea class="form-control" name="purpose" rows="5" id="purpose"></textarea>
+ </div>
+ <div class="form-group">
+      <label>STARTING DATE AND TIME</label>
+      <input type="date" name="starting" class="form-control" id="start" placeholder="starting date">
+ </div>
+ <div class="form-group">
+  <label>ENDING DATE AND TIME</label>
+  <input type="date" name="ending" class="form-control" id="ending" placeholder="ending date">
+</div>
+<div class="form-group">
+  <label>DURATION</label>
+  <input type="text" name="duration" class="form-control" id="duration" placeholder="No of days">
+</div>
+ <button type="submit" class="btn btn-primary">SUBMIT</button>
+</form>
+
+<h3>Apply Status</h3><br>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">PURPOSE</th>
+      <th scope="col">START DATE</th>
+      <th scope="col">END DATE</th>
+      <th scope="col">DURATION</th>
+      <th scope="col">STATUS</th>
+      <th scope="col">COMMENT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if leavecheckflag == 1 %}
+    {% for row in leavecheckvalue %}
+    <tr>
+      <td>{{row.purpose}}</td>
+      <td>{{row.start_date}}</td>
+      <td>{{row.end_date}}</td>
+      <td>{{row.duration}}</td>
+      <td>{{ row.status}}</td>
+      <td>{{ row.comment}}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </tbody>
+</table>
+
+{% endblock a %}
