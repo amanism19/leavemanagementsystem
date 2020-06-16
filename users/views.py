@@ -1,6 +1,8 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import auth , User
 from .models import *
+from django.core.mail import send_mail
+
 # Create your views here.
 def home(request):
     msg = ''
@@ -80,7 +82,7 @@ def mentor(request):
     getAllStudentList = []
     getAllstudentInfo = []
     flag = 0
-    
+    check1=True
     if request.method == 'POST':
         status1 = request.POST.get('statusbtn')
         rowid = request.POST.get('rowid')
@@ -90,6 +92,19 @@ def mentor(request):
         updateObj.status = status1
         updateObj.comment = comment1
         updateObj.save()
+        student_id = updateObj.student_id
+        student = User.objects.get(id=student_id)
+        #print("user_id",user_id)
+        body = 'TO Acknowledge leave of' + student.username +' having id no. '+str( student.id) +', click on the following link. ...... '+'<a href="/confirm/'+str(rowid)+'">test<a/>'
+        if status1 == 'approved':
+            send_mail(
+                'LEAVE ACKNOWLEDGMENT',
+                body,
+                'amankumar.6d@gmail.com',
+                ['amankumar.6d@gmail.com'],
+                fail_silently=False,
+                    )
+        
     
     if check:
         getAllStudent = MenStu.objects.filter(mentor_id=user_id)
@@ -100,4 +115,19 @@ def mentor(request):
         if check1:
             flag =1
             getAllstudentInfo =  Leave.objects.filter(student_id__in=getAllStudentList)
-    return render(request, 'mentor.html',{'getAllstudentInfo':getAllstudentInfo,'flag':flag})
+    return render(request, 'mentor.html',{'getAllstudentInfo':getAllstudentInfo,'flag':flag, 'check1':check1})
+
+def confirm(request, rowid):
+    check= True
+    if request.method == 'POST':
+        status2 = request.POST.get('acknowledgebtn')
+        updateObj2 =  Leave.objects.get(id=rowid )
+        updateObj2.status = status2
+        updateObj2.save()
+        if status2 == 'acknowledged':
+            check=False
+        else:
+            check = True    
+    return render(request, 'confirmation.html',{'rowid':rowid} ,{'check': check } )
+
+

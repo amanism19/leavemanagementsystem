@@ -27,13 +27,16 @@
         {% csrf_token %}
         <input type='text' name='comment' class="form-control"/>
     </td>
+    {% if  row.status == 'acknowledged' or row.status == 'rejected' or row.status == 'approved' %}
+  <td></td>
+    {% else %}
       <td><form method = "post" action = "/mentor">
         {% csrf_token %}
         <input type='hidden' name='rowid' value ={{row.id}} /> 
         <button type="submit" name ="statusbtn" value='approved' class="btn btn-primary">APPROVED</button>
         <button type="submit" name ="statusbtn" value='rejected' class="btn btn-primary">REJECTED</button>
       </form></td>
-      
+     {% endif %} 
     </tr>
     {% endfor %}
     {% endif %}
