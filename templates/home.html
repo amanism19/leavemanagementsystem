@@ -5,6 +5,7 @@
 {% endif %}
 {% if user.is_authenticated %}
     <div class="jumbotron">
+      <h2>Create User</h2>
         <p class="lead">
            <form method="post" action = "/">
                {% csrf_token %}
@@ -17,7 +18,7 @@
                 <input type="password" name = "password" class="form-control" id="password" placeholder="Password">
               </div>
               <div class="form-group">
-                <label>Example select</label>
+                <label>Select User Type</label>
                 <select class="form-control" id="select1" name="role"> 
                   <option value=1>student</option>
                   <option value=2>mentor</option>

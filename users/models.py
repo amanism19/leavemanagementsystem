@@ -35,7 +35,10 @@ class Leave(models.Model):
     comment = models.TextField()
     duration = models.IntegerField()
     start_date = models.DateTimeField()
-    end_date = models.DateTimeField() 
+    end_date = models.DateTimeField()
+    warden_start_date = models.DateTimeField() 
+    warden_end_date = models.DateTimeField() 
+
     class Meta:
         managed = False
         db_table = 'Leave_Info'
